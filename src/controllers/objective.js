@@ -1,4 +1,5 @@
 const Objective = require("../models/objective");
+const KeyResult = require("../models/keyresult");
 const Joi = require("@hapi/joi");
 
 const controller = {
@@ -33,7 +34,7 @@ const controller = {
          * - fetch KRs
          */
 
-        const objectives = Objective.find();
+        const objectives = Objective.find().populate("keyresults");
 
         res.send({
             objectives: await objectives.exec(),

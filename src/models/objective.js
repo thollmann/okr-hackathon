@@ -6,4 +6,10 @@ mongoose.connect(conn, { useNewUrlParser: true });
 module.exports = mongoose.model("Objective", {
     completionDate: Date,
     label: String,
+    keyresults: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "KeyResult",
+        },
+    ],
 });

@@ -12,6 +12,7 @@ const YAML = require("yamljs");
 
 // Routes
 const objectivesRouter = require("./src/routes/objective");
+const keyResultsRouter = require("./src/routes/keyresult");
 
 require("dotenv").config();
 
@@ -48,6 +49,7 @@ const swaggerDocument = YAML.load("./docs.yaml");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/", objectivesRouter);
+app.use("/", keyResultsRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
