@@ -10,10 +10,6 @@ const { auth } = require("express-openid-connect");
 const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 
-// Routes
-const objectivesRouter = require("./src/routes/objective");
-const keyResultsRouter = require("./src/routes/keyresult");
-
 require("dotenv").config();
 
 app.use(
@@ -48,8 +44,10 @@ const swaggerDocument = YAML.load("./docs.yaml");
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/", objectivesRouter);
-app.use("/", keyResultsRouter);
+// Routes
+app.use("/", require("./src/routes/keyresult"));
+app.use("/", require("./src/routes/objective"));
+app.use("/", require("./src/routes/team"));
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
