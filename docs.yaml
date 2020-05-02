@@ -103,49 +103,52 @@ paths:
             responses:
                 "200":
                     description: "success"
-    /store/inventory:
-        get:
-            tags:
-                - "keyresults"
-            summary: "Returns pet inventories by status"
-            description: "Returns a map of status codes to quantities"
-            operationId: "getInventory"
-            produces:
-                - "application/json"
-            parameters: []
-            responses:
-                "200":
-                    description: "successful operation"
-                    schema:
-                        type: "object"
-                        additionalProperties:
-                            type: "integer"
-                            format: "int32"
-            security:
-                - api_key: []
-    /store/order:
+    /objectives/{objective._id}/keyresults:
         post:
             tags:
                 - "keyresults"
-            summary: "Place an order for a pet"
-            description: ""
-            operationId: "placeOrder"
+            summary: "Create a KR for our O"
+            operationId: "createKr"
             produces:
                 - "application/json"
             parameters:
+                - name: "objective._id"
+                  in: "path"
+                  description: "ID of objective that needs to be updated"
+                  required: true
+                  type: "string"
                 - in: "body"
                   name: "body"
-                  description: "order placed for purchasing the pet"
+                  description: "KR object that needs to be added"
                   required: true
                   schema:
-                      $ref: "#/definitions/Order"
+                      $ref: "#/definitions/KeyResult"
             responses:
                 "200":
                     description: "successful operation"
-                    schema:
-                        $ref: "#/definitions/Order"
-                "400":
-                    description: "Invalid Order"
+    /objectives/{objective._id}/keyresults/{keyresult._id}:
+        delete:
+            tags:
+                - "keyresults"
+            summary: "Delete a key result"
+            description: ""
+            operationId: "deleteKR"
+            produces:
+                - "application/json"
+            parameters:
+                - name: "objective._id"
+                  in: "path"
+                  description: "ID of objective that needs KR to be deleted"
+                  required: true
+                  type: "string"
+                - name: "keyresult._id"
+                  in: "path"
+                  description: "ID of KR that needs to be deleted"
+                  required: true
+                  type: "string"
+            responses:
+                "200":
+                    description: "successful operation"
 
     /user:
         post:
@@ -362,9 +365,8 @@ definitions:
             - "objectiveId"
             - "type"
         properties:
-            objectiveId:
-                type: "number"
-                example: 123
+            label:
+                type: "string"
             type:
                 type: "string"
                 example: "percentage"
