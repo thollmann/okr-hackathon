@@ -3,7 +3,7 @@ dotenv.load();
 
 module.exports = {
     connectionString: () => {
-        const dbConnectionString = process.env.MONGOCONNECTION;
+        const dbConnectionString = process.env.MONGODB_URI;
         return dbConnectionString;
     },
 };

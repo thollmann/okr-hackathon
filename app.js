@@ -39,6 +39,7 @@ app.use(auth(config));
 
 // req.isAuthenticated is provided from the auth router
 app.get("/", (req, res) => {
+    console.log("We got a request!");
     res.send(req.isAuthenticated() ? "Logged in" : "Logged out");
 });
 
