@@ -44,10 +44,6 @@ paths:
             responses:
                 "405":
                     description: "Invalid input"
-            security:
-                - okr_auth:
-                      - "write:objectives"
-                      - "read:objectives"
         get:
             tags:
                 - "objectives"
@@ -63,73 +59,50 @@ paths:
                     description: "Success"
                     schema:
                         $ref: "#/definitions/ListObjectives"
-            security:
-                - okr_auth:
-                      - "read:objectives"
 
-    /pet/{petId}:
+    /objectives/{objective._id}:
         patch:
             tags:
                 - "objectives"
-            summary: "Updates a pet in the store with form data"
+            summary: "Updates an objective"
             description: ""
-            operationId: "updatePetWithForm"
+            operationId: "patchObjective"
             consumes:
                 - "application/x-www-form-urlencoded"
             produces:
                 - "application/json"
             parameters:
-                - name: "petId"
+                - name: "objective._id"
                   in: "path"
-                  description: "ID of pet that needs to be updated"
+                  description: "ID of objective that needs to be updated"
                   required: true
-                  type: "integer"
-                  format: "int64"
-                - name: "name"
-                  in: "formData"
-                  description: "Updated name of the pet"
-                  required: false
                   type: "string"
-                - name: "status"
-                  in: "formData"
-                  description: "Updated status of the pet"
-                  required: false
-                  type: "string"
+                - in: "body"
+                  name: "body"
+                  description: "Objective that needs to be updated"
+                  required: true
+                  schema:
+                      $ref: "#/definitions/Objective"
             responses:
-                "405":
-                    description: "Invalid input"
-            security:
-                - petstore_auth:
-                      - "write:pets"
-                      - "read:pets"
+                "204":
+                    description: "No content"
         delete:
             tags:
                 - "objectives"
-            summary: "Deletes a pet"
+            summary: "Deletes an objective"
             description: ""
-            operationId: "deletePet"
+            operationId: "deleteObjective"
             produces:
                 - "application/json"
             parameters:
-                - name: "api_key"
-                  in: "header"
-                  required: false
-                  type: "string"
-                - name: "petId"
+                - name: "objective._id"
                   in: "path"
-                  description: "Pet id to delete"
+                  description: "ID of objective that needs to be deleted"
                   required: true
-                  type: "integer"
-                  format: "int64"
+                  type: "string"
             responses:
-                "400":
-                    description: "Invalid ID supplied"
-                "404":
-                    description: "Pet not found"
-            security:
-                - petstore_auth:
-                      - "write:pets"
-                      - "read:pets"
+                "200":
+                    description: "success"
     /store/inventory:
         get:
             tags:

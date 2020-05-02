@@ -21,6 +21,8 @@ app.use(
     })
 );
 
+app.use(bodyParser.json());
+
 const config = {
     required: false,
     auth0Logout: true,

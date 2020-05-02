@@ -1,5 +1,5 @@
 const dotenv = require("dotenv");
-dotenv.load();
+dotenv.config();
 
 module.exports = {
     connectionString: () => {
