@@ -13,9 +13,7 @@ const YAML = require("yamljs");
 // Routes
 const objectivesRouter = require("./src/routes/objective");
 
-if (process.env.NODE_ENV !== "production") {
-    require("dotenv").config();
-}
+require("dotenv").config();
 
 app.use(
     bodyParser.urlencoded({
