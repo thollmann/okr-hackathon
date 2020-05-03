@@ -63,8 +63,24 @@ paths:
                 "200":
                     description: "Success"
                     schema:
-                        $ref: "#/definitions/ListObjectives"
-
+                        type: object
+                        properties:
+                            objectives:
+                                type: array
+                                items:
+                                    $ref: "#/definitions/ListObjectives"
+                            status:
+                                type: object
+                                properties:
+                                    healthy:
+                                        type: number
+                                        example: 0
+                                    critical:
+                                        type: number
+                                        example: 3
+                                    atRisk:
+                                        type: number
+                                        example: 1
     /objectives/{objective._id}:
         patch:
             tags:
@@ -314,6 +330,9 @@ definitions:
                 type: "number"
                 example: 123
             completionDate:
+                type: "string"
+                format: "date-time"
+            startDate:
                 type: "string"
                 format: "date-time"
             label:

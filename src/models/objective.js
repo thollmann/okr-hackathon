@@ -3,7 +3,8 @@ const dbConfig = require("../../config/dbConfig");
 const conn = dbConfig.connectionString();
 mongoose.connect(conn, { useNewUrlParser: true });
 
-module.exports = mongoose.model("Objective", {
+const ObjectiveSchema = new mongoose.Schema({
+    startDate: Date,
     completionDate: Date,
     label: String,
     keyresults: [
@@ -17,3 +18,5 @@ module.exports = mongoose.model("Objective", {
         ref: "Team",
     },
 });
+
+module.exports = mongoose.model("Objective", ObjectiveSchema);
