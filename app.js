@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const http = require("http").Server(app);
 
+const cors = require("cors");
 const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 
@@ -17,6 +18,8 @@ app.use(
         extended: true,
     })
 );
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
