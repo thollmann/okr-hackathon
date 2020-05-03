@@ -56,28 +56,57 @@ const controller = {
             };
         }
 
-        const objectives = Objective.find(terms).populate("keyresults");
+        const objectives = await Objective.find(terms).populate("keyresults");
+
+        const result = [];
+
+        // Loop through and calculate weighting per krs
+        for (const objective of objectives) {
+            const progress = 0;
+
+            if (
+                objective &&
+                objective.keyresults &&
+                objective.keyresults.length > 0
+            ) {
+                for (const kr of objective.keyresults) {
+                    console.log("kr", kr);
+                }
+            }
+
+            result.push({
+                label: objective.label,
+                completionDate: objective.completionDate,
+                progress,
+                keyresults: objective.keyresults,
+            });
+        }
 
         res.send({
-            objectives: await objectives.exec(),
+            objectives: result,
         });
     },
     patch: async (req, res, next) => {
         try {
             const schema = Joi.object({
                 label: Joi.string().required(),
+                teamId: Joi.string().optional(),
                 completionDate: Joi.date().optional(),
             });
 
             await schema.validateAsync(req.body);
 
-            const { label, completionDate } = req.body;
+            const { label, completionDate, teamId } = req.body;
 
             const filter = {
                 _id: req.params.objectiveId,
             };
 
-            await Objective.updateOne(filter, { label, completionDate });
+            await Objective.updateOne(filter, {
+                label,
+                completionDate,
+                team: teamId,
+            });
 
             res.sendStatus(204);
         } catch (e) {

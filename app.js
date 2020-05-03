@@ -26,7 +26,7 @@ const config = {
     appSession: {
         secret: process.env.AUTH0_CLIENT_SECRET,
     },
-    baseURL: "http://localhost:3000",
+    baseURL: process.env.BASE_URL,
     clientID: process.env.AUTH0_CLIENT_ID,
     issuerBaseURL: process.env.AUTH0_DOMAIN,
 };
