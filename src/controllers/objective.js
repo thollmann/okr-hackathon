@@ -101,7 +101,11 @@ const controller = {
 
             // Check to see if we have a startDate and a completionDate
 
-            if (objective.startDate && objective.completionDate) {
+            if (
+                objective.startDate &&
+                objective.completionDate &&
+                objective.keyresults.length > 0
+            ) {
                 // Craft our data objects
                 const startDate = new Date(objective.startDate);
 
