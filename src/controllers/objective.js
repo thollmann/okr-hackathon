@@ -36,13 +36,6 @@ const controller = {
         }
     },
     list: async (req, res, next) => {
-        /**
-         * TODO
-         * - calculate progress per objective
-         * DONE
-         * --include query for teamId--
-         * --fetch KRs--
-         */
         const schema = Joi.object({
             teamId: Joi.string().allow("", null).optional(),
         });
@@ -62,22 +55,46 @@ const controller = {
 
         // Loop through and calculate weighting per krs
         for (const objective of objectives) {
-            const progress = 0;
+            let progress = 0;
 
             if (
                 objective &&
                 objective.keyresults &&
                 objective.keyresults.length > 0
             ) {
+                let totalWeight = 0;
+
                 for (const kr of objective.keyresults) {
-                    console.log("kr", kr);
+                    if (kr.weight && !isNaN(kr.weight)) {
+                        totalWeight += kr.weight;
+                    }
+                }
+
+                // Calculate stuff here
+                for (const kr of objective.keyresults) {
+                    if (
+                        !isNaN(kr.minValue) &&
+                        !isNaN(kr.maxValue) &&
+                        !isNaN(kr.currentValue) &&
+                        !isNaN(kr.weight)
+                    ) {
+                        const percentage =
+                            (kr.currentValue - kr.minValue) /
+                            (kr.maxValue - kr.minValue);
+
+                        const currentWeightedPercentage =
+                            (kr.weight / totalWeight) * percentage;
+
+                        progress += currentWeightedPercentage;
+                    }
                 }
             }
 
             result.push({
+                _id: objective._id,
                 label: objective.label,
                 completionDate: objective.completionDate,
-                progress,
+                progress: Number((progress * 100).toFixed(2)),
                 keyresults: objective.keyresults,
             });
         }

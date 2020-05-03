@@ -6,6 +6,7 @@ router.route("/objectives/:objectiveId/keyresults").post(controller.create);
 
 router
     .route("/objectives/:objectiveId/keyresults/:keyResultId")
+    .patch(controller.patch)
     .delete(controller.delete);
 
 module.exports = router;

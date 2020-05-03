@@ -8,9 +8,10 @@ const controller = {
             const schema = Joi.object({
                 label: Joi.string().required(),
                 type: Joi.string().required(),
-                minValue: Joi.number().optional(),
-                maxValue: Joi.number().optional(),
-                weight: Joi.number().optional(),
+                minValue: Joi.number().required(),
+                maxValue: Joi.number().required(),
+                currentValue: Joi.number().required(),
+                weight: Joi.number().required(),
                 decimals: Joi.number().optional(),
             });
 
@@ -25,6 +26,7 @@ const controller = {
                 type,
                 minValue,
                 maxValue,
+                currentValue,
                 weight,
                 decimals,
                 label,
@@ -36,6 +38,7 @@ const controller = {
                 type,
                 minValue,
                 maxValue,
+                currentValue,
                 weight,
                 decimals,
             });
@@ -44,6 +47,49 @@ const controller = {
 
             existObjective.keyresults.push(kr._id);
             await existObjective.save();
+
+            res.sendStatus(200);
+        } catch (e) {
+            next(e);
+        }
+    },
+    patch: async (req, res, next) => {
+        try {
+            const schema = Joi.object({
+                label: Joi.string().required(),
+                type: Joi.string().required(),
+                minValue: Joi.number().required(),
+                maxValue: Joi.number().required(),
+                currentValue: Joi.number().required(),
+                weight: Joi.number().required(),
+                decimals: Joi.number().optional(),
+            });
+
+            await schema.validateAsync(req.body);
+
+            const {
+                type,
+                minValue,
+                maxValue,
+                currentValue,
+                weight,
+                decimals,
+                label,
+            } = req.body;
+
+            const filter = {
+                _id: req.params.keyResultId,
+            };
+
+            await KeyResult.updateOne(filter, {
+                label,
+                type,
+                minValue,
+                maxValue,
+                currentValue,
+                weight,
+                decimals,
+            });
 
             res.sendStatus(200);
         } catch (e) {

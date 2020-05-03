@@ -12,6 +12,7 @@ module.exports = mongoose.model("KeyResult", {
     type: String,
     minValue: Number,
     maxValue: Number,
+    currentValue: Number,
     weight: Number,
     decimals: Number,
 });
