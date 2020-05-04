@@ -49,7 +49,7 @@ const controller = {
             const { label } = req.body;
 
             const filter = {
-                _id: req.params.objectiveId,
+                _id: req.params.teamId,
             };
             await Team.updateOne(filter, { label });
 
